@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI初心者のためのChatGPT・Claude活用プロンプト30選</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --surface2: #f0ede6;
+    --border: #e0dbd0;
+    --text: #1a1814;
+    --text-muted: #7a7468;
+    --text-light: #a8a29a;
+    --accent: #2563a8;
+    --accent-light: #dbeafe;
+    --accent2: #7c3aed;
+    --green: #15803d;
+    --green-light: #dcfce7;
+    --amber: #b45309;
+    --amber-light: #fef3c7;
+    --cat-a: #2563a8;
+    --cat-b: #7c3aed;
+    --cat-c: #15803d;
+    --cat-d: #b45309;
+    --cat-e: #be185d;
+    --cat-f: #0e7490;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  /* ── ヘッダー ── */
+  .hero {
+    background: var(--text);
+    color: var(--bg);
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -20px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.7);
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 5vw, 36px);
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 span { font-style: italic; }
+  .hero-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── 使い方 3ステップ ── */
+  .howto {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 24px;
+  }
+  .howto-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .howto h2 {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .step {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    background: var(--bg);
+  }
+  .step-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--text-light);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .step p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── カテゴリナビ ── */
+  .cat-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .cat-nav-inner {
+    display: inline-flex;
+    gap: 0;
+    max-width: 720px;
+  }
+  .cat-btn {
+    padding: 14px 16px;
+    font-size: 12px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .cat-btn:hover { color: var(--text); }
+  .cat-btn.active { color: var(--text); border-bottom-color: var(--text); }
+
+  /* ── メインコンテンツ ── */
+  .main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── カテゴリセクション ── */
+  .cat-section { margin-bottom: 60px; }
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--text);
+  }
+  .cat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .cat-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+  }
+  .cat-header p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .cat-count {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-light);
+    letter-spacing: 1px;
+  }
+
+  /* ── プロンプトカード ── */
+  .prompt-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .prompt-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 20px 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-light);
+    padding-top: 3px;
+    flex-shrink: 0;
+    width: 24px;
+  }
+  .card-title-group { flex: 1; }
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+  .card-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.3px;
+  }
+  .badge-aim {
+    background: var(--surface2);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .badge-ai-both { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+  .badge-ai-gpt { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .badge-ai-claude { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; }
+
+  .card-toggle {
+    font-size: 18px;
+    color: var(--text-light);
+    flex-shrink: 0;
+    padding-top: 2px;
+    transition: transform 0.25s;
+  }
+  .prompt-card.open .card-toggle { transform: rotate(45deg); }
+
+  .card-body {
+    display: none;
+    padding: 0 20px 20px 58px;
+    border-top: 1px solid var(--surface2);
+  }
+  .prompt-card.open .card-body { display: block; }
+
+  .aim-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 14px 0 12px;
+    line-height: 1.7;
+  }
+
+  .prompt-box {
+    background: #f8f7f4;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--text);
+    border-radius: 0 4px 4px 0;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-all;
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .copy-btn:hover { opacity: 0.75; }
+  .copy-btn.done { background: var(--green); }
+
+  .tip-box {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.7;
+    border-radius: 0 4px 4px 0;
+  }
+  .tip-label {
+    font-weight: 500;
+    color: var(--amber);
+    margin-bottom: 3px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── フッター ── */
+  .footer-section {
+    background: var(--text);
+    color: var(--bg);
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .footer-inner { max-width: 480px; margin: 0 auto; }
+  .footer-section h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    letter-spacing: -0.3px;
+  }
+  .footer-section p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.9;
+    margin-bottom: 24px;
+  }
+  .footer-cta {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 12px 24px;
+    border-radius: 2px;
+    transition: all 0.2s;
+    margin: 6px;
+  }
+  .footer-cta:hover { background: rgba(255,255,255,0.1); }
+  .footer-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 32px auto;
+  }
+  .footer-note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 2;
+  }
+
+  @media (max-width: 600px) {
+    .steps { grid-template-columns: 1fr; }
+    .card-body { padding-left: 20px; }
+    .hero { padding: 40px 20px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<div class="hero">
+  <div class="hero-tag">LINE登録者限定 · 無料配布</div>
+  <h1>AI初心者のための<br><span>ChatGPT · Claude</span><br>活用プロンプト30選</h1>
+  <div class="hero-sub">コア｜AI知識×時短 @lab_ai_core</div>
+</div>
+
+<!-- 使い方3ステップ -->
+<div class="howto">
+  <div class="howto-inner">
+    <h2>STEP · 使い方</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <p>カテゴリを選んで、今日の作業に合うプロンプトを1つ選ぶ</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <p>「コピー」ボタンでプロンプトをコピー。◯◯の部分を自分の内容に書き換える</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <p>ChatGPT・Claudeに貼り付けて送信。まず1つ試すことが大事</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- カテゴリナビ -->
+<div class="cat-nav">
+  <div class="cat-nav-inner">
+    <button class="cat-btn active" onclick="scrollTo('cat-a')">A. 文章・メール</button>
+    <button class="cat-btn" onclick="scrollTo('cat-b')">B. 要約・整理</button>
+    <button class="cat-btn" onclick="scrollTo('cat-c')">C. 調査・比較</button>
+    <button class="cat-btn" onclick="scrollTo('cat-d')">D. 学習・理解</button>
+    <button class="cat-btn" onclick="scrollTo('cat-e')">E. 仕事効率化</button>
+    <button class="cat-btn" onclick="scrollTo('cat-f')">F. ツール使い分け</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══ A. 文章作成・メール文 ═══ -->
+<div class="cat-section" id="cat-a">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:#dbeafe; color:#1d4ed8;">✍️</div>
+    <div>
+      <h2>A. 文章作成・メール文</h2>
+      <p>書くことに使う時間を減らす5つ</p>
+    </div>
+    <div class="cat-count">01 – 05</div>
+  </div>
+
+  <!-- 01 -->
+  <div class="prompt-card" id="card-01">
+    <div class="card-header" onclick="toggle('card-01')">
+      <div class="card-num">01</div>
+      <div class="card-title-group">
+        <div class="card-title">長いメールを丁寧に・短く整える</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">メール時短</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">書きすぎたメールをプロ品質に整理してくれます。送る前に通すだけで印象が変わります。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下のメール文を、丁寧で簡潔な表現に整えてください。
+読みやすく、相手に伝わりやすい構成にしてください。
+文体は「です・ます」調で統一してください。
+
+【メール文】
+◯◯◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「丁寧で簡潔」という指示がポイント。「丁寧に」だけだと長くなりすぎることがあります。両方入れると良いバランスになります。
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="prompt-card" id="card-02">
+    <div class="card-header" onclick="toggle('card-02')">
+      <div class="card-num">02</div>
+      <div class="card-title-group">
+        <div class="card-title">話し言葉のメモをメール文に変換する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">ゼロからの文章作成</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「伝えたいことは頭にあるけど文章にならない」という場面に効きます。メモや箇条書きをそのまま渡すだけでOK。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下のメモをもとに、ビジネスメールとして自然な文章を作ってください。
+宛先は◯◯さん（◯◯会社）です。
+丁寧な「です・ます」調にしてください。
+
+【伝えたいこと（メモ）】
+・◯◯
+・◯◯
+・◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        メモは箇条書きでも口語でも大丈夫です。完璧にまとめようとしないで、思いついたことを全部渡してしまいましょう。
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="prompt-card" id="card-03">
+    <div class="card-header" onclick="toggle('card-03')">
+      <div class="card-num">03</div>
+      <div class="card-title-group">
+        <div class="card-title">文章のトーンを場面に合わせて変える</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">文体変換</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">同じ内容でも、相手によって表現を変える必要があります。「上司向け」「友人向け」「お客様向け」などと指定するだけで変換してくれます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下の文章を、◯◯（例：上司・取引先・初対面の相手）に送るのに
+適したトーンに書き換えてください。
+内容は変えずに、表現だけ調整してください。
+
+【元の文章】
+◯◯◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        Claudeは文章の微妙なトーン調整が得意です。「少しカジュアルに」「より丁寧に」など程度感も一緒に伝えると精度が上がります。
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="prompt-card" id="card-04">
+    <div class="card-header" onclick="toggle('card-04')">
+      <div class="card-num">04</div>
+      <div class="card-title-group">
+        <div class="card-title">断りのメールを角を立てずに書く</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">断り・辞退</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">断る文章はどう書けばいいか迷いがちです。「理由と代替案をセットで」というルールをAIが自動で守ってくれます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下の依頼・誘いを、相手との関係を壊さず角が立たない表現で
+丁寧にお断りするメールを書いてください。
+
+【断る内容】◯◯
+【理由（簡単でOK）】◯◯
+【相手との関係】◯◯（例：上司・取引先・知人）
+
+可能であれば代替案や今後につながる一言も入れてください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        理由は「詳しく書かなくていい」です。「都合がつかない」程度で大丈夫。AIが自然な断り文に整えてくれます。
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="prompt-card" id="card-05">
+    <div class="card-header" onclick="toggle('card-05')">
+      <div class="card-num">05</div>
+      <div class="card-title-group">
+        <div class="card-title">自己紹介文を目的別に作る</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">自己紹介・プロフィール</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">初対面の場、SNSのプロフィール、社内紹介など場面によって自己紹介は変わります。用途を指定して使いましょう。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下のプロフィール情報をもとに、◯◯（例：SNS用・初対面の場・社内）
+向けの自己紹介文を作ってください。
+文字数は◯◯字程度にしてください。
+
+【プロフィール情報】
+・名前：◯◯
+・仕事・職種：◯◯
+・得意なこと・やっていること：◯◯
+・伝えたいこと：◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「3パターン作って」と頼むと、場面ごとに使い分けられる文章を一度に出してくれます。選ぶだけになるので時短になります。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ B. 要約・整理 ═══ -->
+<div class="cat-section" id="cat-b">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:#ede9fe; color:#6d28d9;">📋</div>
+    <div>
+      <h2>B. 要約・整理</h2>
+      <p>読む・まとめる時間を削る5つ</p>
+    </div>
+    <div class="cat-count">06 – 10</div>
+  </div>
+
+  <!-- 06 -->
+  <div class="prompt-card" id="card-06">
+    <div class="card-header" onclick="toggle('card-06')">
+      <div class="card-num">06</div>
+      <div class="card-title-group">
+        <div class="card-title">長い文章を3行で要約する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">超高速要約</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">記事・報告書・議事録など、何でも3行にまとめてくれます。「とにかく短く」したいときに一番使えるプロンプトです。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下の文章を、要点だけ3行以内にまとめてください。
+難しい言葉は使わず、誰でもわかる言葉で書いてください。
+
+【文章】
+◯◯◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「3行」と具体的な数を指定することが大事です。「要約して」だけだと長くなりがちです。行数か文字数を必ず指定しましょう。
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="prompt-card" id="card-07">
+    <div class="card-header" onclick="toggle('card-07')">
+      <div class="card-num">07</div>
+      <div class="card-title-group">
+        <div class="card-title">会議メモを議事録に整える</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">議事録作成</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">乱雑なメモや音声入力のテキストを、読みやすい議事録に変換します。決定事項とTODOを自動で抽出してくれます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下の会議メモをもとに、議事録を作成してください。
+以下の構成でまとめてください。
+
+① 会議の概要（1〜2行）
+② 決定事項（箇条書き）
+③ TODO・次のアクション（担当者と期限があれば記載）
+④ 未決定・持ち越し事項
+
+【会議メモ】
+◯◯◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        メモは雑でも大丈夫です。音声入力で話したものをそのまま貼り付けても整理してくれます。Claudeは長いテキストの処理が得意です。
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="prompt-card" id="card-08">
+    <div class="card-header" onclick="toggle('card-08')">
+      <div class="card-num">08</div>
+      <div class="card-title-group">
+        <div class="card-title">複数の情報を比較表にまとめる</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">情報整理</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">複数の選択肢・サービス・商品を比べるとき、表形式にまとめてもらうと一目でわかりやすくなります。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下の◯◯を比較する表を作ってください。
+比較する項目は「◯◯・◯◯・◯◯」にしてください。
+表形式（マークダウンのテーブル）で出してください。
+
+【比較対象】
+・◯◯
+・◯◯
+・◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「比較する項目」を自分で指定することが大事です。指定しないと、AIが自分で項目を選ぶので、自分が知りたい軸と違うことがあります。
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 -->
+  <div class="prompt-card" id="card-09">
+    <div class="card-header" onclick="toggle('card-09')">
+      <div class="card-num">09</div>
+      <div class="card-title-group">
+        <div class="card-title">読んだ本・記事の内容を自分の言葉でまとめる</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">読書メモ・学習整理</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">読んだ内容を誰かに説明するつもりで整理すると、記憶に残りやすくなります。AIを「説明相手」として使うのがコツです。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>私が以下の内容を読みました。
+これを「自分がまだ読んでいない知人に説明する」つもりで
+わかりやすく整理してください。
+重要なポイントを3つ抽出し、
+各ポイントを2〜3行で説明してください。
+
+【読んだ内容（メモ・抜粋）】
+◯◯◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        読んだ直後にやるのが効果的です。Claudeは「わかりやすく説明し直す」作業が得意なので、学習の整理役として向いています。
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="prompt-card" id="card-10">
+    <div class="card-header" onclick="toggle('card-10')">
+      <div class="card-num">10</div>
+      <div class="card-title-group">
+        <div class="card-title">散らかった考えを整理して構造化する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">思考整理</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「頭の中にアイデアはあるけど整理できない」という状態を解消します。思いついたことを全部書いて渡すだけでOK。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>私が考えていることを整理してください。
+以下のメモは順番もバラバラで、重複もあります。
+内容を整理して、わかりやすく構造化してください。
+
+【考えていること（順不同・箇条書きOK）】
+・◯◯
+・◯◯
+・◯◯
+・◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        完璧に整えてから渡す必要はありません。頭に浮かんだことをそのまま全部書いてしまいましょう。Claudeが構造を見つけてくれます。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ C. 調査・比較 ═══ -->
+<div class="cat-section" id="cat-c">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:#dcfce7; color:#166534;">🔍</div>
+    <div>
+      <h2>C. 調査・比較</h2>
+      <p>調べる・比べる・判断するの時短5つ</p>
+    </div>
+    <div class="cat-count">11 – 15</div>
+  </div>
+
+  <!-- 11 -->
+  <div class="prompt-card" id="card-11">
+    <div class="card-header" onclick="toggle('card-11')">
+      <div class="card-num">11</div>
+      <div class="card-title-group">
+        <div class="card-title">知らない言葉をわかりやすく教えてもらう</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">用語解説</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">専門用語やニュースで出てきた言葉を、自分のレベルに合わせて説明してもらえます。検索より早くわかります。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>「◯◯」という言葉の意味を教えてください。
+◯◯（例：IT初心者 / 中学生 / その分野を全く知らない人）
+でもわかるように、具体例を交えて説明してください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「小学生向けに」「IT初心者向けに」のように対象を指定するだけで、難易度が大きく変わります。自分のレベルより少し低めに設定するとわかりやすいです。
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 -->
+  <div class="prompt-card" id="card-12">
+    <div class="card-header" onclick="toggle('card-12')">
+      <div class="card-num">12</div>
+      <div class="card-title-group">
+        <div class="card-title">2つの選択肢のメリット・デメリットを出す</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">意思決定サポート</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「AかBか迷っている」という状況で、両方の観点を整理してくれます。自分が気づいていなかった視点も出してくれることがあります。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>◯◯と◯◯のどちらかを選ぼうとしています。
+それぞれのメリット・デメリットを整理してください。
+
+私の状況：◯◯（例：初心者 / 予算は◯◯円程度 / 目的は◯◯）
+
+最後に、私の状況に合わせてどちらがおすすめか、
+理由つきで一言アドバイスしてください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「自分の状況」を入れることが大事です。状況なしだと一般論しか出ません。自分の条件を伝えると、より具体的なアドバイスが返ってきます。
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 -->
+  <div class="prompt-card" id="card-13">
+    <div class="card-header" onclick="toggle('card-13')">
+      <div class="card-num">13</div>
+      <div class="card-title-group">
+        <div class="card-title">あるテーマについて「初心者が知るべきこと」をまとめる</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">新分野の入門調査</span>
+          <span class="badge badge-ai-gpt">ChatGPT向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">知らないジャンルに入るとき、まず「全体像」を掴むのに使えます。何から調べればいいかわからないときの最初の一歩に。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>「◯◯」について、完全な初心者が最初に知っておくべきことを
+教えてください。
+
+以下の構成でお願いします。
+① そもそも◯◯とは何か（1〜2行）
+② 初心者がよく誤解すること（2〜3個）
+③ 最初にやるべきこと（3ステップ）
+④ 知っておくと役立つ言葉・概念（3〜5個）</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        ChatGPTは幅広い情報を整理して出すのが得意です。ただし最新情報は古い場合があるので、重要な数字や仕様は別途確認しましょう。
+      </div>
+    </div>
+  </div>
+
+  <!-- 14 -->
+  <div class="prompt-card" id="card-14">
+    <div class="card-header" onclick="toggle('card-14')">
+      <div class="card-num">14</div>
+      <div class="card-title-group">
+        <div class="card-title">アイデアの実現可能性をチェックしてもらう</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">アイデア検証</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「このアイデアってどうだろう」と思ったとき、客観的な視点でリスクや課題を整理してくれます。一人で考えると見えない盲点を出してくれます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>私が考えているアイデアを評価してください。
+
+【アイデアの内容】◯◯
+【目的・背景】◯◯
+【今の状況・制約】◯◯
+
+以下の観点で分析してください。
+① 良い点・実現可能な部分
+② 課題・リスク
+③ 見落としていそうな点
+④ 改善するなら何を変えるか</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        Claudeは「批判的に考える」作業が得意です。褒めるだけでなく、課題も正直に出してくれます。「厳しく評価して」と足すとさらに鋭くなります。
+      </div>
+    </div>
+  </div>
+
+  <!-- 15 -->
+  <div class="prompt-card" id="card-15">
+    <div class="card-header" onclick="toggle('card-15')">
+      <div class="card-num">15</div>
+      <div class="card-title-group">
+        <div class="card-title">気になるサービス・ツールの概要をすぐ把握する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">サービス調査</span>
+          <span class="badge badge-ai-gpt">ChatGPT向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">新しいツールやサービスを知ったとき、公式サイトを全部読まずに概要だけ素早く把握したい場面に使えます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>「◯◯（サービス・ツール名）」について教えてください。
+
+以下の形式でまとめてください。
+① どんなサービスか（1〜2行）
+② 主な機能・できること（3〜5個）
+③ 無料版・有料版の違い（あれば）
+④ 向いている人・向いていない人
+⑤ 似たサービスとの違い（あれば）</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        ChatGPTの知識には期限があるため、最新のサービス情報は公式サイトでも確認することをおすすめします。あくまで「概要把握」用として使いましょう。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ D. 学習・理解 ═══ -->
+<div class="cat-section" id="cat-d">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:#fef3c7; color:#92400e;">📚</div>
+    <div>
+      <h2>D. 学習・理解</h2>
+      <p>勉強・インプットを加速する5つ</p>
+    </div>
+    <div class="cat-count">16 – 20</div>
+  </div>
+
+  <!-- 16 -->
+  <div class="prompt-card" id="card-16">
+    <div class="card-header" onclick="toggle('card-16')">
+      <div class="card-num">16</div>
+      <div class="card-title-group">
+        <div class="card-title">難しい文章を読みやすく言い換えてもらう</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">文章の難易度を下げる</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">専門的な文章や堅い説明文を、自分が理解できるレベルに変換してくれます。法律・契約書・説明書などに効果的です。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下の文章を、◯◯（例：中学生 / 専門知識がない人）
+でもわかるように、やさしい言葉で書き直してください。
+難しい専門用語には（）で補足説明を入れてください。
+
+【元の文章】
+◯◯◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        Claudeは「やさしく言い換える」作業の精度が高いです。法律文書や利用規約を貼り付けて「要点を教えて」と頼むのも効果的な使い方です。
+      </div>
+    </div>
+  </div>
+
+  <!-- 17 -->
+  <div class="prompt-card" id="card-17">
+    <div class="card-header" onclick="toggle('card-17')">
+      <div class="card-num">17</div>
+      <div class="card-title-group">
+        <div class="card-title">何かを学ぶための3ヶ月ロードマップを作る</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">学習計画</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「何から勉強すればいいかわからない」という状態を解消します。自分のレベルと目的を伝えるだけで、具体的なステップを出してくれます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>「◯◯」を学びたいと思っています。
+3ヶ月で基礎をマスターするための学習ロードマップを作ってください。
+
+私の現状：◯◯（例：完全初心者 / 少し触ったことがある程度）
+学習に使える時間：1日◯◯時間程度
+目標：◯◯ができるようになりたい
+
+月ごとにやること・使うべき教材（できれば無料のもの）を
+具体的に教えてください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「できれば無料のもの」と入れておくと、有料教材を勧めてくる確率が下がります。まず無料で始めるのが長続きのコツです。
+      </div>
+    </div>
+  </div>
+
+  <!-- 18 -->
+  <div class="prompt-card" id="card-18">
+    <div class="card-header" onclick="toggle('card-18')">
+      <div class="card-num">18</div>
+      <div class="card-title-group">
+        <div class="card-title">AIを「練習相手」として使う</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">スキル練習・ロールプレイ</span>
+          <span class="badge badge-ai-gpt">ChatGPT向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">プレゼン・面接・英会話・営業トークなど、「練習したいけど相手がいない」という場面でAIを使えます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>これから◯◯（例：面接 / プレゼン / 英会話）の練習をします。
+あなたは◯◯の役（例：面接官 / 聴衆 / ネイティブスピーカー）を
+演じてください。
+
+私が話したら、フィードバックをください。
+改善点と良かった点を教えてください。
+
+では始めます。◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        ChatGPTは役割演技（ロールプレイ）が得意です。「厳しいフィードバックをください」と足すと、より実戦的な練習になります。
+      </div>
+    </div>
+  </div>
+
+  <!-- 19 -->
+  <div class="prompt-card" id="card-19">
+    <div class="card-header" onclick="toggle('card-19')">
+      <div class="card-num">19</div>
+      <div class="card-title-group">
+        <div class="card-title">「なぜ？」を5回深掘りして本質を理解する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">深い理解・本質把握</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">表面的な情報だけでなく、「なぜそうなのか」を掘り下げて理解したい場面に使います。物事の仕組みや背景をつかむのに効果的です。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>「◯◯」について、「なぜ？」を5回繰り返して
+本質まで掘り下げて教えてください。
+
+表面的な説明ではなく、
+「なぜそうなのか」「なぜそれが重要なのか」
+という順番で深めてください。
+最後に、一番重要な本質を1行でまとめてください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        Claudeは論理的な深掘りが得意です。「なぜAIは間違えるのか」「なぜ無料版と有料版があるのか」など、AIに関する疑問をこのプロンプトで掘り下げるのも面白いです。
+      </div>
+    </div>
+  </div>
+
+  <!-- 20 -->
+  <div class="prompt-card" id="card-20">
+    <div class="card-header" onclick="toggle('card-20')">
+      <div class="card-num">20</div>
+      <div class="card-title-group">
+        <div class="card-title">理解できたか確認するクイズを作ってもらう</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">理解度確認</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">学んだことが本当に身についているか確認したいときに使えます。自分でテストを作るより、AIに作らせる方が客観的で効率的です。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>私が「◯◯」について学びました。
+理解度を確認するための確認クイズを5問作ってください。
+
+難易度は◯◯（例：初心者 / 中級者）向けにしてください。
+形式は選択肢式（4択）でお願いします。
+
+全問出したあとに、正解と解説を教えてください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        クイズを解いてから「解説して」と頼むと、自分が間違えた部分だけ詳しく教えてもらえます。弱点を効率よく補強できます。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ E. 仕事効率化 ═══ -->
+<div class="cat-section" id="cat-e">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:#fce7f3; color:#9d174d;">⚡</div>
+    <div>
+      <h2>E. 仕事効率化</h2>
+      <p>毎日の作業を短縮する5つ</p>
+    </div>
+    <div class="cat-count">21 – 25</div>
+  </div>
+
+  <!-- 21 -->
+  <div class="prompt-card" id="card-21">
+    <div class="card-header" onclick="toggle('card-21')">
+      <div class="card-num">21</div>
+      <div class="card-title-group">
+        <div class="card-title">今日やることを優先順位順に整理する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">タスク整理・優先順位</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">やることが多くて頭が混乱しているとき、リストを渡すだけで優先順位をつけてくれます。朝のルーティンに組み込むと効果的です。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>今日やるべきタスクを整理してください。
+
+以下の基準で優先順位をつけてください。
+① 緊急かつ重要なもの
+② 重要だが急ぎではないもの
+③ 急ぎだが重要ではないもの
+④ 今日やらなくていいもの
+
+【今日のタスクリスト】
+・◯◯
+・◯◯
+・◯◯
+・◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        タスクに「締め切り」や「重要度の背景」を一言添えると、AIがより適切に優先順位をつけてくれます。毎朝5分かけるだけで1日の流れが変わります。
+      </div>
+    </div>
+  </div>
+
+  <!-- 22 -->
+  <div class="prompt-card" id="card-22">
+    <div class="card-header" onclick="toggle('card-22')">
+      <div class="card-num">22</div>
+      <div class="card-title-group">
+        <div class="card-title">資料・プレゼンのたたき台を作る</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">資料作成の起点</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">ゼロから資料を作るのは時間がかかります。AIでたたき台を出して、そこから手直しするだけにすると大幅に時短できます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>以下のテーマで、プレゼン・報告資料のたたき台を作ってください。
+
+【テーマ・目的】◯◯
+【対象となる聴衆・読者】◯◯
+【伝えたいこと（要点）】
+・◯◯
+・◯◯
+・◯◯
+【スライド構成の希望（あれば）】◯◯枚程度
+
+各スライドのタイトルと、書く内容の要点を出してください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        Claudeは長い構成を整理するのが得意です。たたき台を出してもらい、自分でPowerPointやGoogleスライドに入力する使い方が現実的です。
+      </div>
+    </div>
+  </div>
+
+  <!-- 23 -->
+  <div class="prompt-card" id="card-23">
+    <div class="card-header" onclick="toggle('card-23')">
+      <div class="card-num">23</div>
+      <div class="card-title-group">
+        <div class="card-title">アイデアを素早く10個出す</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">アイデア発散</span>
+          <span class="badge badge-ai-gpt">ChatGPT向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">企画・ネタ出し・解決策など、アイデアが必要なときに大量に発散してもらえます。全部使わなくていい、まず数を出すのがコツです。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>「◯◯」についてのアイデアを10個出してください。
+
+条件：
+・実現可能かどうかは気にせず出してください
+・似たようなアイデアは避けてください
+・それぞれ1〜2行で簡潔に書いてください
+
+最後に、10個の中で特に可能性が高いと思うものを
+3つ選んでその理由を教えてください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「実現可能かどうかは気にせず」が大事な一言です。これがないと無難なアイデアしか出てきません。まず発散、次に絞るという順番を守りましょう。
+      </div>
+    </div>
+  </div>
+
+  <!-- 24 -->
+  <div class="prompt-card" id="card-24">
+    <div class="card-header" onclick="toggle('card-24')">
+      <div class="card-num">24</div>
+      <div class="card-title-group">
+        <div class="card-title">繰り返し作業のテンプレートを作る</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">業務の定型化・テンプレ化</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">毎回同じような文章・資料を作っているなら、テンプレートを一度作ってしまいましょう。次回からは穴埋めするだけになります。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>私は定期的に◯◯（例：週次報告 / 問い合わせへの返信 / 見積もり依頼）
+を作成しています。
+
+毎回書き直さなくて済むように、
+汎用的に使えるテンプレートを作ってください。
+
+変えるべき部分は「【◯◯】」の形で示してください。
+
+【この書類に必ず含める要素】
+・◯◯
+・◯◯</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        テンプレートを作ったら、次回からは「このテンプレートに以下の情報を入れてください」と渡すだけで完成文が出てきます。Claudeとの相性が特によい使い方です。
+      </div>
+    </div>
+  </div>
+
+  <!-- 25 -->
+  <div class="prompt-card" id="card-25">
+    <div class="card-header" onclick="toggle('card-25')">
+      <div class="card-num">25</div>
+      <div class="card-title-group">
+        <div class="card-title">Excelの数式・操作を日本語で解決する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">Excel時短</span>
+          <span class="badge badge-ai-gpt">ChatGPT向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「この計算をExcelでやりたいけど数式がわからない」という場面に使えます。数式を教えてもらうだけでなく、入力方法も一緒に教えてくれます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>Excelで以下のことをやりたいです。
+使う数式とその入力方法を教えてください。
+
+【やりたいこと】◯◯
+【データの配置】
+・A列：◯◯
+・B列：◯◯
+
+初心者でもわかるように、ステップごとに説明してください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「データの配置」を説明すると、そのまま使える数式を出してくれます。エラーが出た場合は「このエラーメッセージが出ました」と貼るとすぐ解決策が返ってきます。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ F. ChatGPT・Claude使い分け ═══ -->
+<div class="cat-section" id="cat-f">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:#cffafe; color:#0e7490;">🤖</div>
+    <div>
+      <h2>F. ChatGPT · Claude 使い分け</h2>
+      <p>2つのAIを正しく使い分けるための入口5つ</p>
+    </div>
+    <div class="cat-count">26 – 30</div>
+  </div>
+
+  <!-- 26 -->
+  <div class="prompt-card" id="card-26">
+    <div class="card-header" onclick="toggle('card-26')">
+      <div class="card-num">26</div>
+      <div class="card-title-group">
+        <div class="card-title">2つのAIに同じ質問をして回答の違いを確かめる</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">AI比較体験</span>
+          <span class="badge badge-ai-both">両方に試す</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">同じプロンプトを両方に試すことが、使い分けを学ぶ一番の近道です。違いを体感するためのプロンプトです。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>【ChatGPTとClaudeの両方に送るプロンプト】
+
+「◯◯について、初心者にもわかるように
+ 具体的な例を交えて説明してください。」
+
+※このプロンプトをChatGPTとClaudeの両方に送って、
+　回答の違いを比べてみてください。
+　どちらの説明が自分にとってわかりやすいかを確認してみましょう。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        同じ質問でも、ChatGPTは「幅広く・箇条書き寄り」、Claudeは「文章として丁寧に」答える傾向があります。どちらが好みか確認してみましょう。
+      </div>
+    </div>
+  </div>
+
+  <!-- 27 -->
+  <div class="prompt-card" id="card-27">
+    <div class="card-header" onclick="toggle('card-27')">
+      <div class="card-num">27</div>
+      <div class="card-title-group">
+        <div class="card-title">AIが苦手なことを確認する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">AIの限界を知る</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">AIを使いこなすには「できること」より「できないこと」を知る方が大事です。正直に答えてくれるプロンプトです。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>あなた（ChatGPT / Claude）が苦手なことや、
+注意して使う必要があることを正直に教えてください。
+
+特に以下の点について教えてください。
+① 情報の正確性・最新性について
+② どんな質問では間違えやすいか
+③ 使う側が気をつけるべきことは何か</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        AIは自分の苦手なことを正直に答えます。「AIが信頼できないと感じる場面」を事前に知っておくと、正しく使えるようになります。
+      </div>
+    </div>
+  </div>
+
+  <!-- 28 -->
+  <div class="prompt-card" id="card-28">
+    <div class="card-header" onclick="toggle('card-28')">
+      <div class="card-num">28</div>
+      <div class="card-title-group">
+        <div class="card-title">今の自分の使い方を改善するアドバイスをもらう</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">AI活用の改善</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「AIを使っているけど、もっとうまく使えている気がする」という感覚があるときに使えます。現状を伝えるだけで改善案を出してくれます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>私は今、AIをこのように使っています。
+もっと効果的な使い方があれば教えてください。
+
+【今の使い方】
+・主に使う場面：◯◯
+・よく使うプロンプトの形：◯◯
+・うまくいかないと感じること：◯◯
+
+改善できる点と、試してほしいプロンプトの例も教えてください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        Claudeは「現状分析→改善提案」の流れが得意です。自分のAI活用を定期的に見直すのに使うと、徐々にうまくなっていきます。
+      </div>
+    </div>
+  </div>
+
+  <!-- 29 -->
+  <div class="prompt-card" id="card-29">
+    <div class="card-header" onclick="toggle('card-29')">
+      <div class="card-num">29</div>
+      <div class="card-title-group">
+        <div class="card-title">無料版・有料版どちらを使うべきか判断する</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">ツール選定の判断</span>
+          <span class="badge badge-ai-both">どちらでもOK</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「有料版にするべきか迷っている」という方向けです。自分の使い方を伝えるだけで、無料版で十分かを客観的に判断してくれます。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>ChatGPT / Claude の無料版と有料版、どちらが私に合っているか
+判断してください。
+
+【私の使い方・状況】
+・使う頻度：◯◯（例：毎日 / 週に数回）
+・主な用途：◯◯
+・今感じている不満・限界：◯◯
+・月◯◯円なら払える
+
+正直に、有料版が必要かどうか教えてください。
+不要であれば、不要と言ってください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        「正直に」「不要なら不要と言って」と入れることが大事です。これがないと、AI側が有料版を勧める方向に偏ることがあります。
+      </div>
+    </div>
+  </div>
+
+  <!-- 30 -->
+  <div class="prompt-card" id="card-30">
+    <div class="card-header" onclick="toggle('card-30')">
+      <div class="card-num">30</div>
+      <div class="card-title-group">
+        <div class="card-title">自分に合ったAI活用スタイルを見つける</div>
+        <div class="card-meta">
+          <span class="badge badge-aim">AI活用スタイルの設計</span>
+          <span class="badge badge-ai-claude">Claude向き</span>
+        </div>
+      </div>
+      <div class="card-toggle">+</div>
+    </div>
+    <div class="card-body">
+      <div class="aim-text">「AIを使うべきとはわかっているけど、どう日常に組み込めばいいかわからない」という方の最後の一押しになるプロンプトです。</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyText(this)">コピー</button>私の仕事・生活のスタイルに合ったAI活用方法を提案してください。
+
+【私のプロフィール】
+・職種・仕事内容：◯◯
+・1日の流れ（簡単に）：◯◯
+・AIに任せたいこと：◯◯
+・AIに任せたくないこと（あれば）：◯◯
+
+無理なく続けられる、シンプルなAI活用ルーティンを
+3つ提案してください。</div>
+      <div class="tip-box">
+        <div class="tip-label">💡 使い方のコツ</div>
+        Claudeは「自分に合わせた提案」が得意です。提案されたルーティンを全部試す必要はなく、一番続けやすそうなものを1つだけ選んで始めましょう。
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- フッター -->
+<div class="footer-section">
+  <div class="footer-inner">
+    <h3>もっと深く学びたい方へ</h3>
+    <p>
+      このプロンプト集を使ってみて、疑問が出たこと・うまくいかなかったこと・もっと知りたいことがあれば、LINEのトーク画面に返信してください。できる限りお答えします。
+    </p>
+    <a href="#" class="footer-cta">LINE で質問する</a>
+    <div class="footer-divider"></div>
+    <p style="margin-bottom:12px;">
+      Threadsでは毎週、ChatGPT・Claude・Geminiの使い方や最新AIニュースを初心者向けに発信しています。
+    </p>
+    <a href="https://www.threads.net/@lab_ai_core" class="footer-cta" target="_blank">Threads @lab_ai_core</a>
+    <div class="footer-divider"></div>
+    <div class="footer-note">
+      このコンテンツはコア｜AI知識×時短（@lab_ai_core）のLINE登録者限定配布物です。<br>
+      無断での転載・再配布はお控えください。<br>
+      掲載内容は作成時点の情報です。AIツールの仕様は随時変更されます。
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function copyText(btn) {
+  const box = btn.parentElement;
+  const text = box.innerText.replace('コピー', '').replace('コピー済み', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'コピー済み';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('done'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
