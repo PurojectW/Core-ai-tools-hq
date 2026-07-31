@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI初心者のためのChatGPT・Claude活用プロンプト30選</title>
+<title>もうAIの使い方で迷わない｜ChatGPT・Claude実用プロンプト30選</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -132,6 +132,29 @@
     font-size: 12px;
     color: var(--text-muted);
     line-height: 1.7;
+  }
+
+  /* ── この特典について ── */
+  .about-gift {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px;
+  }
+  .about-gift-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .about-gift h2 {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .about-gift p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.9;
   }
 
   /* ── カテゴリナビ ── */
@@ -398,8 +421,8 @@
 <!-- ヘッダー -->
 <div class="hero">
   <div class="hero-tag">LINE登録者限定 · 無料配布</div>
-  <h1>AI初心者のための<br><span>ChatGPT · Claude</span><br>活用プロンプト30選</h1>
-  <div class="hero-sub">コア｜AI知識×時短 @lab_ai_core</div>
+  <h1>もうAIの使い方で迷わない<br><span>ChatGPT・Claude</span><br>実用プロンプト30選</h1>
+  <div class="hero-sub">テト｜AI活用メモ @teto_ai_note</div>
 </div>
 
 <!-- 使い方3ステップ -->
@@ -423,15 +446,26 @@
   </div>
 </div>
 
+<!-- この特典について -->
+<div class="about-gift">
+  <div class="about-gift-inner">
+    <h2>この特典について</h2>
+    <p>
+      この特典では、文章・要約・整理で使いやすいChatGPTとClaudeに絞っています。<br>
+      調べ物や最新情報でのGeminiの使い分けは、LINEやThreadsで順番に紹介します。
+    </p>
+  </div>
+</div>
+
 <!-- カテゴリナビ -->
 <div class="cat-nav">
   <div class="cat-nav-inner">
-    <button class="cat-btn active" onclick="scrollTo('cat-a')">A. 文章・メール</button>
-    <button class="cat-btn" onclick="scrollTo('cat-b')">B. 要約・整理</button>
-    <button class="cat-btn" onclick="scrollTo('cat-c')">C. 調査・比較</button>
-    <button class="cat-btn" onclick="scrollTo('cat-d')">D. 学習・理解</button>
-    <button class="cat-btn" onclick="scrollTo('cat-e')">E. 仕事効率化</button>
-    <button class="cat-btn" onclick="scrollTo('cat-f')">F. ツール使い分け</button>
+    <button class="cat-btn active" onclick="scrollToCategory('cat-a')">A. 文章・メール</button>
+    <button class="cat-btn" onclick="scrollToCategory('cat-b')">B. 要約・整理</button>
+    <button class="cat-btn" onclick="scrollToCategory('cat-c')">C. 調査・比較</button>
+    <button class="cat-btn" onclick="scrollToCategory('cat-d')">D. 学習・理解</button>
+    <button class="cat-btn" onclick="scrollToCategory('cat-e')">E. 仕事効率化</button>
+    <button class="cat-btn" onclick="scrollToCategory('cat-f')">F. ツール使い分け</button>
   </div>
 </div>
 
@@ -1423,6 +1457,12 @@
 <!-- フッター -->
 <div class="footer-section">
   <div class="footer-inner">
+    <h3>まずは1つだけ試してください</h3>
+    <p>
+      今日困っている作業に近いプロンプトを1つ選び、コピーして試してみてください。<br>
+      使い方に迷ったときは、登録したLINEのトーク画面に戻って、そのまま質問を送ってください。
+    </p>
+    <div class="footer-divider"></div>
     <h3>もっと深く学びたい方へ</h3>
     <p>
       このプロンプト集を使ってみて、疑問が出たこと・うまくいかなかったこと・もっと知りたいことがあれば、LINEのトーク画面に返信してください。できる限りお答えします。
@@ -1432,10 +1472,10 @@
     <p style="margin-bottom:12px;">
       Threadsでは毎週、ChatGPT・Claude・Geminiの使い方や最新AIニュースを初心者向けに発信しています。
     </p>
-    <a href="https://www.threads.net/@lab_ai_core" class="footer-cta" target="_blank">Threads @lab_ai_core</a>
+    <a href="https://www.threads.net/@lab_ai_core" class="footer-cta" target="_blank">Threads @teto_ai_note</a>
     <div class="footer-divider"></div>
     <div class="footer-note">
-      このコンテンツはコア｜AI知識×時短（@lab_ai_core）のLINE登録者限定配布物です。<br>
+      このコンテンツはテト｜AI活用メモ（@teto_ai_note）のLINE登録者限定配布物です。<br>
       無断での転載・再配布はお控えください。<br>
       掲載内容は作成時点の情報です。AIツールの仕様は随時変更されます。
     </div>
@@ -1448,7 +1488,7 @@ function toggle(id) {
   card.classList.toggle('open');
 }
 
-function scrollTo(id) {
+function scrollToCategory(id) {
   document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
